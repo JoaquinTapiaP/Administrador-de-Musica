@@ -64,34 +64,45 @@ char **leer_linea_csv(FILE *archivo, char separador) {
 
 
 List *split_string(const char *str, const char *delim) {
-  List *result = list_create();
-  char *token = strtok((char *)str, delim);
-
-  while (token != NULL) {
-    // Eliminar espacios en blanco al inicio del token
-    while (*token == ' ') {
-      token++;
+    List *result = list_create();
+    if (result == NULL) return NULL;  // Verificar si la lista se crea correctamente.
+  
+    // Crear una copia de la cadena para evitar modificar la original
+    char *str_copy = strdup(str);
+    if (str_copy == NULL) return NULL;  // Verificar si la copia se creó correctamente.
+  
+    char *token = strtok(str_copy, delim);
+  
+    while (token != NULL) {
+      // Eliminar espacios en blanco al inicio del token
+      while (*token == ' ') {
+        token++;
+      }
+  
+      // Eliminar espacios en blanco al final del token
+      char *end = token + strlen(token) - 1;
+      while (*end == ' ' && end > token) {
+        *end = '\0';
+        end--;
+      }
+  
+      // Comprobar si el token no está vacío
+      if (strlen(token) > 0) {
+        // Copiar el token en un nuevo string
+        char *new_token = strdup(token);
+        if (new_token != NULL) {
+          // Agregar el nuevo string a la lista
+          list_pushBack(result, new_token);
+        }
+      }
+  
+      // Obtener el siguiente token
+      token = strtok(NULL, delim);
     }
-
-    // Eliminar espacios en blanco al final del token
-    char *end = token + strlen(token) - 1;
-    while (*end == ' ' && end > token) {
-      *end = '\0';
-      end--;
-    }
-
-    // Copiar el token en un nuevo string
-    char *new_token = strdup(token);
-
-    // Agregar el nuevo string a la lista
-    list_pushBack(result, new_token);
-
-    // Obtener el siguiente token
-    token = strtok(NULL, delim);
+  
+    free(str_copy);  // Liberar la memoria de la copia de la cadena.
+    return result;
   }
-
-  return result;
-}
 
 // Función para limpiar la pantalla
 void limpiarPantalla() { system("clear"); }
