@@ -7,6 +7,21 @@
 #include <string.h>
 
 
+List* split_string(char* str, char delimiter) {
+  List* lista = list_create();
+  if (lista == NULL || str == NULL) return NULL;
+
+  char* token = strtok(str, &delimiter);
+  while (token != NULL) {
+      list_pushBack(lista, strdup(token)); 
+      token = strtok(NULL, &delimiter);
+  }
+
+  return lista;
+}
+
+
+
 char **leer_linea_csv(FILE *archivo, char delimitador) {
   char linea[2048];
   if (fgets(linea, sizeof(linea), archivo) == NULL) {
@@ -59,7 +74,7 @@ void leer_canciones() {
     printf("ID: %d\n", atoi(campos[0]));
     printf("Título cancion: %s\n", campos[4]);
 
-    List* artistas = split_string(campos[2], ";");
+    List* artistas = split_string(campos[2], ',');
 
     printf("Artistas: \n");
     for(char *artista = list_first(artistas); artista != NULL; 
