@@ -28,90 +28,124 @@ Este sistema ha sido desarrollado en lenguaje C y puede ejecutarse fácilmente u
     - Abre la terminal integrada (`Terminal > Nueva terminal`).
     - En la terminal Git Bash, compila el programa con el siguiente comando: 
     ```
-    gcc  TSMS.c list.c -Wno-unused-result -o Tech-Support-Management-System
+    gcc  main.c list.c map.c extra.c -Wno-unused-result -o Administrador-de-Musica
     ```
 4. **Ejecuta el programa**
     - Una vez compilado, puedes ejecutar la aplicación con:
     ```
-    ./Tech-Support-Management-System
+    ./Administrador-de-Musica
     ```
 
 ### Funcionalidades
 
 ### Funcionando correctamente:
 
-- Registrar tickets con su ID, descripcion, hora y una prioridad inicial en orden de llegada.
-- Modificar la prioridad de los tickets.
-- Ver la lista de espera de tickets, ordenada por prioridad y hora de registro.
-- Atender al siguiente usuario, respetando el orden de prioridad (de alta a baja).
-- Buscar un usuario según su ID.
+- Cargar la base de datos de las canciones desde un archivo .csv (En vez de mostrar las 10000 canciones, se muestran las primeras 100 para que no colapse la terminal).
+- Buscar y mostrar todas las canciones del genero que se busque.
+- Buscar y mostrar todas las canciones del artista que se busque.
+- Buscar y mostrar todas las canciones de cierto tempo en base a Lento siendo menor a 80 BPM, Moderado siendo de 80 BPM a 120 BPM y Rápidas siendo mayor que 120 BPM.
+- Crear una lista de reproducción vacia con nombre customizable.
+- Agregar una cancion a una lista de reproduccion en base al ID de la cancion.
+- Mostrar todas las canciones de una lista de reproduccion
 
 ### Problemas conocidos:
 
-- Una vez la prioridad de un ticket en la lista de prioridad baja es cambiada, no se puede cambiar al estar en otra lista de prioridad
+- Si el archivo procesa muchas canciones, la terminal puede colapsar y no mostrar las canciones desde el inicio al final, y cortar las primeras canciones mostradas.
+- No se pueden eliminar canciones de las listas de reproduccion.
+- No se puede cambiar el nombre de una lista de reproduccion.
+- No se puede cambiar el orden de las canciones de una lista de reproduccion.
 
 ### A mejorar:
 
-- Permitir la edición de la descripcion de los tickets.
-- Permitir el cambio de prioridades cuando no se encuentran en prioridad baja.
 
+- Permitir la muestra de canciones con mas de un artista en base al nombre de uno de los artistas involucrados.
+- Permitir la busqueda de artistas independientemente de si su nombre incluye mayusculas, tildes o cáracteres especiales.
 
 ## Ejemplo de uso
 
 **Paso 1: Registrar un Nuevo Ticket**
 
-Se comienza registrando un nuevo ticket para la persona que acaba de llegar al servicio tecnica.
+El usuario abre el programa por primera vez.
 
 ```
-Opción seleccionada: 1) Registrar ticket
-Ingrese el ID del usuario: 6
-Ingrese la descripcion del problema del usuario: Pantalla Rota
-Ingrese hora de llegada: 12:34
+Opción seleccionada: 1) Cargar Canciones
 ```
 
-El sistema registra a un usuario con una ID, con una prioridad inicial "Bajo" y guarda la hora actual de registro en formato 24 horas (ejemplo: 12:34, 15:30, 23:32) La prioridad inicial puede ser ajustada más adelante.
+El sistema procesa el archivo .csv de canciones y las añade para poder ser utilizadas.
 
-**Paso 2: Reasignar Prioridad a un Usuario**
-
-Tras una evaluación inicial, el tecnico determina que el usuario requiere atención prioritaria.
-
+**Paso 2: Buscar por genero**
+Despues de que las cancione sean procecadas, el usuario busca canciones de un genero en especifico
 ```
-Opción seleccionada: 2) Asignar nueva prioridad a usuario
-Ingrese el ID del usuario: 6
-Seleccione el nuevo nivel de prioridad (Alto = 1, Medio = 2, Bajo = 3): 1
+Opción seleccionada: 2) Buscar por genero
+Ingrese el genero que busca: j-pop
 ```
+Si hay canciones de ese genero, el programa mostrara todas las canciones de ese genero.
+Si no hay canciones de ese genero, el programa avisara que no hay y devolverá al usuario al menu principal
 
-El sistema cambiara la prioridad del usuario a alto, y lo movera a la lista de alta prioridad.
-
-**Paso 3: Mostrar la lista de espera**
-El usuario desea ver la lista de usuarios del dia.
-
+**Paso 3: Buscar por Artista**
+El usuario ahora quiere encontrar todas las canciones de un artista en especifico.
 ```
-Opción Seleccionada: 3) Mostrar lista de espera
+Opción seleccionada: 3) Buscar por artista
+Ingrese el artista que busca: YOASOBI
 ```
+Si el artista existe y tiene canciones, mostrara todas las canciones que esten de forma individual de ese artista (Colaboraciones no se mostrarán).
+Si el artista no tiene canciones, indicara que no hay canciones de ese artista y devolvera al usuario al menu principal
 
-Mostrara la lista de espera, desde el primer usuario en la lista de pruioriad alta, hasta el ultimo usuario en la lista de prioridad baja.
+**Paso 4: Buscar por tempo**
+El usuario ahora quiere buscar canciones que tengan una rapidez general
+```
+Opción seleccionada: 4) Buscar por tempo
+Inserte la velocidad de las canciones deseadas: Lentas, Moderadas o Rapidas:
+- Rapidas
+```
+El programa mostrara todas las canciones de la velocidad solicitada, si el usuario inserta un tipo de velocidad invalida, indicara que esa velocidad no existe y devolverá al usuario al menu principal.
 
-**Paso 4: Mostrar la lista de espera**
-El primer usuario es llamado para ser atendido.
+**Paso 5: Crear Lista de reproduccion**
+El usuario quiere crear una lista de reproduccion con sus canciones favoritas.
+```
+Opción seleccionada: 5) Crear Lista de reproduccion
+Ingrese el nombre de la nueva playlist: Favs
+```
+El programa creara la playlist con el nombre indicado por el usuario.
 
+**Paso 6: Agregar cancion a la lista**
+El usuario quiere añadir canciones a su lista de reproudccion.
 ```
-Opción Seleccionada: 4) Procesar siguiente usuario
+Opción seleccionada: 6) Agregar cancion a la lista
+Ingrese el ID de la cancion: 62330
+Ingrese el nombre de la Playlist a la que se quiere añadir la cancion: Favs
 ```
-El sistema muestra la informacion del usuario, y lo elimina de la lista de espera.
+El programa mostrará los datos de la cancion si es encontrada, sino devolvara al usuario al menu principal.
+Luego el programa mostrara todas las listas de reproduccion existentes.
+El usuario escribe el nombre de la lista y la cancion será agregada, si la lista no existe, el usuario se le devolverá al menu principal.
 
-**Paso 5: Buscar por un usuario**
-El usuario desea buscar la informacion de un usuario en especifico
+**Paso 7: Mostrar canciones de una lista**
+El usuario quiere ver las canciones de su lista de reproduccion.
 ```
-Opción Seleccionada: 5) Buscar un usuario
-Ingrese el ID del usuario: 6
+Opción seleccionada: 7) Mostrar canciones de una lista
+Ingrese el nombre de la Playlist: Favs
 ```
+El programa mostrara las listas existentes.
+El usuario indica el nombre de la lista solicitada.
+El programa mostrará los datos de todas las canciones de la lista de reproducción.
 
-El sistema muestra la informacion del usuario.
+**Paso 8: Salir**
+El usuario desea salir del programa.
+```
+Opción Seleccionada: 6) Salir
+```
+El programa se termina y elimina la informacion.
 
-**Paso 6: Buscar por un usuario**
-Al final del dia, el técnico desea terminar el programa y vaciar toda la lista de espera
-```
-Opción Seleccionada: 6) Abandonar programa
-```
-El programa se termina y elimina la informacion restante.
+## Contribuciones
+
+### Joaquin Tapia:
+
+- Desarrolló las funciones generales, cargar canciones, buscar por genero, buscar por tempo, Agregar cancion a lista,Mostrar Canciones de una lista, Salir.
+- Diseño y redacción del README.
+- Correccion de funciones.
+
+### Joaquin Guarda:
+
+- Desarrolló las funciones Buscar por Artista, Crear Lista de reproducción, Agregar cancion a lista, Salir,
+- Documentación y comentarios en el código.
+- Correción del README.

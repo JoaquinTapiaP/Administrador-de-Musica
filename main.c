@@ -72,13 +72,13 @@ List *Cargar_Canciones(Map *MapArtist, Map *MapGenre, List *SlowBPM, List *MidBP
     // Leer y parsear una línea del archivo CSV. La función devuelve un array de
     // strings, donde cada elemento representa un campo de la línea CSV procesada.
     campos = leer_linea_csv(archivo, ','); // Lee los encabezados del CSV
-    //int k = 0;
+    //int k = 0; 
     // Lee cada línea del archivo CSV hasta el final
     while ((campos = leer_linea_csv(archivo, ',')) != NULL) {
         Song *Cancion = (Song *) malloc(sizeof(Song));
 
         //k++;
-        //if (k > 30) break;
+        //if (k > 125) break; //Para evitar colapso de la terminal, se procesaran solo 200 canciones.
         strcpy(Cancion->id, campos[0]);
         strcpy(Cancion->artists, campos[2]);
         strcpy(Cancion->album_name, campos[3]);
@@ -235,7 +235,7 @@ void SearchByArtist(Map *MapArtist) {
 
 void SearchByTempo(List *SlowBPM, List *MidBPM, List *FastBPM) {
     // se pide al usuario que ingrese que tempo desea buscar
-    printf("Inserte la veloidad de las canciones deseadas: \n");
+    printf("Inserte la velocidad de las canciones deseadas: \n");
     puts("Lentas, Moderadas o Rapidas");
     char inputBPM[100];
     scanf(" %[^\n]s", inputBPM);
@@ -481,5 +481,5 @@ int main() {
 }
 
 
-//   gcc  main.c list.c map.c extra.c -Wno-unused-result -o Tarea-2
-//   ./Tarea-2
+//   gcc  main.c list.c map.c extra.c -Wno-unused-result -o Administrador-de-Musica
+//   ./Administrador-de-Musica
